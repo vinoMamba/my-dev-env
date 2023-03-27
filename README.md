@@ -12,3 +12,19 @@ code .
 # reopen in container (ctrl + shift + p -> reopen in container)
 ```
 
+```json
+{
+	"name": "Existing Dockerfile",
+	"build": {
+		"context": "..",
+		"dockerfile": "../Dockerfile"
+	},
+	"mounts": [
+		"source=vino-config,target=/root/.config,type=volume",
+		"source=vino-repos,target=/root/repos,type=volume",
+		"source=vino-vscode,target=/root/.vscode-server/extensions,type=volume",
+		"source=vino-go,target=/root/go/bin,type=volume",
+		"source=vino-ssh,target=/root/.ssh,type=volume"
+	]
+}
+```

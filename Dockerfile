@@ -5,7 +5,7 @@ ENV SHELL /bin/bash
 ADD pacman.d /etc
 ADD pacman.conf /etc
 RUN yes | pacman -Syu
-RUN yes | pacman -S git zsh
+RUN yes | pacman -S git zsh vim openssh
 RUN mkdir -p /root/.config
 VOLUME [ "/root/.config", "/root/repos", "/root/.vscode-server/extensions", "/root/go/bin", "/root/.ssh" ]
 # end
@@ -36,7 +36,7 @@ RUN go env -w GO111MODULE=on &&\
   go install github.com/silenceper/gowatch@latest
 # end
 # tools
-RUN yes | pacman -S fzf openssh exa the_silver_searcher fd rsync &&\
+RUN yes | pacman -S fzf  exa the_silver_searcher fd rsync &&\
   ssh-keygen -t rsa -N '' -f /etc/ssh/ssh_host_rsa_key &&\
   ssh-keygen -t dsa -N '' -f /etc/ssh/ssh_host_dsa_key
 # end
