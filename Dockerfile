@@ -7,7 +7,7 @@ ADD pacman.conf /etc
 RUN yes | pacman -Syu
 RUN yes | pacman -S git zsh
 RUN mkdir -p /root/.config
-VOLUME [ "/root/.config", "/root/repos", "/root/.vscode-server/extensions", "/root/go/bin", "/var/lib/docker", "/root/.local/share/pnpm", "/usr/local/rvm/gems", "/root/.ssh" ]
+VOLUME [ "/root/.config", "/root/repos", "/root/.vscode-server/extensions", "/root/go/bin", "/root/.ssh" ]
 # end
 
 # z
@@ -35,38 +35,14 @@ RUN go env -w GO111MODULE=on &&\
   go env -w GOPROXY=https://goproxy.cn,direct &&\
   go install github.com/silenceper/gowatch@latest
 # end
-
-# Dev env for JS
-# ENV PNPM_HOME /root/.local/share/pnpm
-# ENV PATH $PNPM_HOME:$PATH
-# RUN touch /root/.config/.npmrc; ln -s /root/.config/.npmrc /root/.npmrc; \
-#   yes | pacman -Syy && yes | pacman -S nodejs npm &&\
-#   npm config set registry=https://registry.npmmirror.com &&\
-#   corepack enable &&\
-#   pnpm setup &&\
-#   pnpm i -g http-server
-# end
-
-# nvm
-ENV NVM_DIR /root/.nvm
-ADD nvm-0.39.1 /root/.nvm/
-RUN sh ${NVM_DIR}/nvm.sh &&\
-  echo '' >> /root/.zshrc &&\
-  echo 'export NVM_DIR="$HOME/.nvm"' >> /root/.zshrc &&\
-  echo '[ -s "${NVM_DIR}/nvm.sh" ] && { source "${NVM_DIR}/nvm.sh" }' >> /root/.zshrc &&\
-  echo '[ -s "${NVM_DIR}/bash_completion" ] && { source "${NVM_DIR}/bash_completion" } ' >> /root/.zshrc
-# end
-
 # tools
 RUN yes | pacman -S fzf openssh exa the_silver_searcher fd rsync &&\
   ssh-keygen -t rsa -N '' -f /etc/ssh/ssh_host_rsa_key &&\
   ssh-keygen -t dsa -N '' -f /etc/ssh/ssh_host_dsa_key
 # end
-
 # others
 RUN yes | pacman -S postgresql-libs
 # end
-
 # dotfiles
 ADD bashrc /root/.bashrc
 RUN echo '[ -f /root/.bashrc ] && source /root/.bashrc' >> /root/.zshrc; \
